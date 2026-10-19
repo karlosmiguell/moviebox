@@ -1,0 +1,17 @@
+# Build results (.NET)
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Arquivos do laboratório (mantidos apenas localmente; alunos devem criar os seus)
+Dockerfile
+**/Dockerfile
+docker-compose.yml
+docker-compose.yaml
+*.yml
+*.yaml

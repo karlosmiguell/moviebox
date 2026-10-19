@@ -1,0 +1,74 @@
+@model List<Filme>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MovieBox</title>
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <main class="container">
+        <header>
+            <span class="badge">Docker Compose Lab</span>
+            <h1>🎬 MovieBox</h1>
+            <p>Cadastre filmes, categorias e notas.</p>
+        </header>
+
+        @if (ViewBag.ErroBanco is not null)
+        {
+            <div class="alert">
+                <strong>Banco indisponível.</strong><br />
+                @ViewBag.ErroBanco
+                <p>Use este erro para investigar o container, as variáveis de ambiente e os logs.</p>
+            </div>
+        }
+
+        <section class="card">
+            <h2>Novo filme</h2>
+            <form asp-action="Criar" method="post" class="form-grid">
+                <label>
+                    Nome
+                    <input name="Nome" placeholder="Ex.: Interestelar" required maxlength="120" />
+                </label>
+                <label>
+                    Categoria
+                    <input name="Categoria" placeholder="Ex.: Ficção Científica" required maxlength="80" />
+                </label>
+                <label>
+                    Nota
+                    <input name="Nota" type="number" min="0" max="10" step="0.1" value="8.0" required />
+                </label>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Filmes cadastrados</h2>
+            @if (Model.Count == 0)
+            {
+                <p>Nenhum filme cadastrado ainda.</p>
+            }
+            else
+            {
+                <div class="movies">
+                    @foreach (var filme in Model)
+                    {
+                        <article class="movie">
+                            <div>
+                                <strong>@filme.Nome</strong>
+                                <span>@filme.Categoria</span>
+                            </div>
+                            <div class="score">⭐ @filme.Nota.ToString("0.0")</div>
+                            <form asp-action="Excluir" method="post">
+                                <input type="hidden" name="id" value="@filme.Id" />
+                                <button class="danger" type="submit">Excluir</button>
+                            </form>
+                        </article>
+                    }
+                </div>
+            }
+        </section>
+    </main>
+</body>
+</html>
