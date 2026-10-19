@@ -31,7 +31,7 @@ Ao final deverão existir **2 containers**:
 - Dockerfile
 - docker-compose.yml
 
-Esses arquivos deverão ser criados pelo grupo.
+Esses arquivos deverão ser criados individualmente pelo aluno.
 
 ## Variáveis esperadas pela aplicação
 
@@ -59,7 +59,7 @@ Dentro do Docker Compose, atenção especial ao `DB_HOST`: o backend precisa enc
 
 ## Porta da aplicação
 
-Ao executar localmente, o ASP.NET Core pode escolher as portas definidas pelo ambiente de desenvolvimento. No container, o grupo deverá definir explicitamente a URL/porta utilizada pela aplicação, por exemplo com `ASPNETCORE_URLS`.
+Ao executar localmente, o ASP.NET Core pode escolher as portas definidas pelo ambiente de desenvolvimento. No container, o aluno deverá definir explicitamente a URL/porta utilizada pela aplicação, por exemplo com `ASPNETCORE_URLS`.
 
 ## Funcionalidades
 
@@ -93,7 +93,7 @@ dotnet restore
 dotnet run
 ```
 
-## Missão do grupo
+## Missão do aluno (Atividade Individual)
 
 Criar:
 
