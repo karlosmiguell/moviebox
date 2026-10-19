@@ -4,50 +4,91 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MovieBox</title>
+    <title>FIAP • MovieBox | Docker Compose Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
+    <div class="top-accent"></div>
+
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="brand">
+                <span class="fiap-logo">FIAP</span>
+                <span class="divider"></span>
+                <span class="lab-tag">DEVOPS &amp; CLOUD • DOCKER COMPOSE LAB</span>
+            </div>
+            <div class="status-pill @(ViewBag.ErroBanco is null ? "online" : "offline")">
+                <span class="dot"></span>
+                @(ViewBag.ErroBanco is null ? "MySQL Connected" : "MySQL Offline")
+            </div>
+        </div>
+    </nav>
+
     <main class="container">
-        <header>
-            <span class="badge">Docker Compose Lab</span>
-            <h1>🎬 MovieBox</h1>
-            <p>Cadastre filmes, categorias e notas.</p>
+        <header class="hero">
+            <div>
+                <span class="badge">ATIVIDADE 01 • 2 CONTAINERS (.NET 8 + MYSQL)</span>
+                <h1>🎬 Movie<span>Box</span></h1>
+                <p>Catálogo de filmes persistido em container MySQL com comunicação via rede Docker.</p>
+            </div>
+            <div class="stats-box">
+                <span class="stats-number">@Model.Count</span>
+                <span class="stats-label">Filmes no Banco</span>
+            </div>
         </header>
 
         @if (ViewBag.ErroBanco is not null)
         {
             <div class="alert">
-                <strong>Banco indisponível.</strong><br />
-                @ViewBag.ErroBanco
-                <p>Use este erro para investigar o container, as variáveis de ambiente e os logs.</p>
+                <div class="alert-header">
+                    <span class="alert-icon">⚠️</span>
+                    <strong>Falha na comunicação com o container MySQL</strong>
+                </div>
+                <code>@ViewBag.ErroBanco</code>
+                <p>Verifique o <strong>docker-compose.yml</strong>, o nome do serviço em <code>DB_HOST</code>, as variáveis de ambiente e os logs com <code>docker compose logs</code>.</p>
             </div>
         }
 
         <section class="card">
-            <h2>Novo filme</h2>
+            <div class="card-header">
+                <h2>Novo Filme</h2>
+                <span class="card-subtitle">Preencha os campos para inserir um registro no MySQL</span>
+            </div>
             <form asp-action="Criar" method="post" class="form-grid">
                 <label>
-                    Nome
+                    <span>TÍTULO DO FILME</span>
                     <input name="Nome" placeholder="Ex.: Interestelar" required maxlength="120" />
                 </label>
                 <label>
-                    Categoria
+                    <span>CATEGORIA / GÊNERO</span>
                     <input name="Categoria" placeholder="Ex.: Ficção Científica" required maxlength="80" />
                 </label>
                 <label>
-                    Nota
-                    <input name="Nota" type="number" min="0" max="10" step="0.1" value="8.0" required />
+                    <span>NOTA (0 A 10)</span>
+                    <input name="Nota" type="number" min="0" max="10" step="0.1" value="9.0" required />
                 </label>
-                <button type="submit">Cadastrar</button>
+                <button type="submit" class="btn-primary">
+                    <span>+ Cadastrar</span>
+                </button>
             </form>
         </section>
 
         <section class="card">
-            <h2>Filmes cadastrados</h2>
+            <div class="card-header">
+                <h2>Catálogo de Filmes</h2>
+                <span class="card-subtitle">Registros armazenados na tabela <code>filmes</code></span>
+            </div>
+
             @if (Model.Count == 0)
             {
-                <p>Nenhum filme cadastrado ainda.</p>
+                <div class="empty-state">
+                    <div class="empty-icon">🎞️</div>
+                    <h3>Nenhum filme cadastrado ainda</h3>
+                    <p>Adicione o primeiro filme acima para testar a persistência do volume no MySQL.</p>
+                </div>
             }
             else
             {
@@ -55,20 +96,29 @@
                     @foreach (var filme in Model)
                     {
                         <article class="movie">
-                            <div>
-                                <strong>@filme.Nome</strong>
-                                <span>@filme.Categoria</span>
+                            <div class="movie-info">
+                                <div class="movie-avatar">@filme.Nome.Substring(0, 1).ToUpper()</div>
+                                <div>
+                                    <strong>@filme.Nome</strong>
+                                    <span class="category-tag">@filme.Categoria</span>
+                                </div>
                             </div>
-                            <div class="score">⭐ @filme.Nota.ToString("0.0")</div>
-                            <form asp-action="Excluir" method="post">
-                                <input type="hidden" name="id" value="@filme.Id" />
-                                <button class="danger" type="submit">Excluir</button>
-                            </form>
+                            <div class="movie-actions">
+                                <div class="score">⭐ @filme.Nota.ToString("0.0")</div>
+                                <form asp-action="Excluir" method="post">
+                                    <input type="hidden" name="id" value="@filme.Id" />
+                                    <button class="btn-danger" type="submit" title="Excluir filme">Excluir</button>
+                                </form>
+                            </div>
                         </article>
                     }
                 </div>
             }
         </section>
     </main>
+
+    <footer class="footer">
+        <p><strong>FIAP</strong> • Laboratório Prático de Docker &amp; Docker Compose</p>
+    </footer>
 </body>
 </html>
