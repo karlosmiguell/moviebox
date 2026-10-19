@@ -58,11 +58,18 @@ body {
     gap: 14px;
 }
 
-.fiap-logo {
-    font-weight: 800;
-    font-size: 1.45rem;
-    letter-spacing: 0.12em;
-    color: var(--fiap-pink);
+.fiap-logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.fiap-footer-logo {
+    height: 20px;
+    width: auto;
+    opacity: 0.9;
+    margin-bottom: 6px;
 }
 
 .divider {
